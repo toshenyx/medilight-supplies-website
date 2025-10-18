@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="header">
+        <div class="breadcrumb">
+            <a href="homepage.html">Homepage</a>
+            <span>&raquo;</span>
+            <span class="current">Wishlist</span>
+        </div>
+    </div>
+    
+    <div class="wishlist-container">
+        <div class="wishlist-header">
+            My Wishlist
+        </div>
+        
+        <table class="wishlist-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="images/mri.jpg" alt="MRI Scanner" class="product-image">
+                    </td>
+                    <td class="price">4,000,000</td>
+                    <td class="quantity">3</td>
+                    <td>
+                        <div class="action-container">
+                            <span class="cart-text">Cart</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="order-text">Order</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/implants.jpg" alt="Medical Implants" class="product-image">
+                    </td>
+                    <td class="price">500,000</td>
+                    <td class="quantity">1</td>
+                    <td>
+                        <div class="action-container">
+                            <span class="cart-text">Cart</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="order-text">Order</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
