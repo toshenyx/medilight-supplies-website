@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDILIGHT SUPPLIES - Delivery Details</title>
+    <style>
+        /* ------------------------------------------------ */
+        /* Updated CSS to match the aesthetic and theme colors */
+        /* ------------------------------------------------ */
+        :root {
+            --medilight-blue: #007bff; 
+            --medilight-orange: #ff9900; 
+            --medilight-green: #00a859; 
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0;
+            /* Gradient Background: Green to Blue */
+            background: linear-gradient(135deg, var(--medilight-green) 0%, var(--medilight-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container { 
+            background-color: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            /* Consistent width adjustment */
+            max-width: 450px; 
+            width: 90%;
+        }
+
+        h1 { 
+            color: var(--medilight-blue); 
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+        p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .confirmation-box { 
+            border: 2px solid var(--medilight-green); 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-top: 15px; 
+        }
+        
+        h2 { 
+            color: var(--medilight-orange); 
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+
+        ul { 
+            list-style: none; 
+            padding: 0; 
+            margin-bottom: 20px;
+        }
+        
+        ul li { 
+            margin-bottom: 10px; 
+            padding: 8px 0; 
+            border-bottom: 1px dashed #e0e0e0; 
+            color: #333;
+            font-size: 0.95em;
+        }
+        
+        ul li strong { 
+            color: var(--medilight-blue); 
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        /* Delivery Address Input */
+        #deliveryAddress {
+            width: 100%; 
+            padding: 12px; 
+            margin: 10px 0 20px 0; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        /* Button Styling */
+        button { 
+            background-color: var(--medilight-blue); 
+            color: white; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.1s;
+        }
+        
+        button:hover { 
+            background-color: var(--medilight-orange); 
+            transform: translateY(-1px);
+        }
+
+        .support-info { 
+            margin-top: 25px; 
+            padding: 15px; 
+            background-color: #f0fff0; 
+            border-left: 5px solid var(--medilight-green); 
+            border-radius: 4px; 
+            text-align: left;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirm Your Order & Delivery Details</h1>
+        <p>Your true partner in providing reliable and responsive services.</p>
+
+        <div id="orderDetails" class="confirmation-box">
+            <h2>Order Summary:</h2>
+            <ul id="orderSummaryList">
+                <li>Loading order summary...</li>
+            </ul>
+
+            <label for="deliveryAddress">Delivery/Installation Address:</label>
+            <textarea id="deliveryAddress" rows="3" placeholder="Full Address, City/Town, Country. Our engineers are trained for on-site support." required></textarea>
+
+            <button onclick="confirmOrder()">Confirm Order & Request Quote</button>
+        </div>
+
+        <div class="support-info">
+            <p><strong>Note:</strong> <span style="color:var(--medilight-blue); font-weight: bold;">MEDILIGHT SUPPLIES</span> offers <span style="color:var(--medilight-orange); font-weight: bold;">24/7 technical support</span> to keep operations running smoothly.</p>
+            <p>A representative will contact you shortly via <span id="displayEmail" style="font-weight: bold;"></span> to finalize the details and provide a customized quote.</p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve the order data saved in the previous page
+            const storedData = localStorage.getItem('currentOrder');
+            const orderSummaryList = document.getElementById('orderSummaryList');
+            const displayEmail = document.getElementById('displayEmail');
+
+            if (storedData) {
+                const orderData = JSON.parse(storedData);
+                
+                // Display the gathered order data
+                orderSummaryList.innerHTML = `
+                    <li><strong>Client Name:</strong> ${orderData.clientName}</li>
+                    <li><strong>Contact Email:</strong> ${orderData.contactEmail}</li>
+                    <li><strong>Order Date:</strong> ${orderData.orderDate}</li>
+                    <li><strong>Product Category:</strong> ${orderData.productCategory}</li>
+                    <li><strong>Estimated Quantity:</strong> ${orderData.quantity}</li>
+                    <li><strong>Specific Needs:</strong> ${orderData.specificNeeds || 'None provided'}</li>
+                `;
+                
+                displayEmail.textContent = orderData.contactEmail;
+
+            } else {
+                orderSummaryList.innerHTML = '<li>No order data found. Please return to the order page to start a new order.</li>';
+            }
+        });
+
+        function confirmOrder() {
+            const deliveryAddress = document.getElementById('deliveryAddress').value;
+            if (!deliveryAddress) {
+                alert("Please enter a delivery/installation address.");
+                return;
+            }
+
+            // Client-side confirmation alert (In a real app, data would be sent to a server here)
+            alert(`Order Confirmed! Your request has been submitted for delivery to: ${deliveryAddress}. A Medilight Supplies professional will contact you soon.`);
+
+            // Clear the stored data after confirmation
+            localStorage.removeItem('currentOrder');
+        }
+    </script>
+</body>
+</html>
