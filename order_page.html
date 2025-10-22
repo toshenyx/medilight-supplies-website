@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDILIGHT SUPPLIES - Order Form</title>
     <style>
-        
         :root {
-            --medilight-blue: #007bff; /* Primary Blue (Trust, Professionalism) */
-            --medilight-orange: #ff9900; /* Secondary Orange (Energy, Innovation) */
-            --medilight-green: #00a859; /* Custom Green Theme */
+            --medilight-blue: #007bff;
+            /* Primary Blue (Trust, Professionalism) */
+            --medilight-orange: #ff9900;
+            /* Secondary Orange (Energy, Innovation) */
+            --medilight-green: #00a859;
+            /* Custom Green Theme */
         }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 0;
-    
+
             background: linear-gradient(135deg, var(--medilight-green) 0%, var(--medilight-blue) 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        
-        .container { 
-            background-color: white; 
-            padding: 40px; 
-            border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-        
-            max-width: 400px; 
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+            max-width: 400px;
             width: 90%;
             transition: transform 0.3s ease;
         }
@@ -38,20 +41,20 @@
         /* CSS for the Logo */
         .logo {
             display: block;
-            width: 80px; 
+            width: 80px;
             height: auto;
             margin: 0 auto 15px auto;
         }
 
         /* Header Styling */
-        h1 { 
-            color: var(--medilight-blue); 
+        h1 {
+            color: var(--medilight-blue);
             text-align: center;
             font-size: 1.8em;
-            margin-top: 0; 
+            margin-top: 0;
             margin-bottom: 5px;
         }
-        
+
         p {
             text-align: center;
             color: #666;
@@ -59,21 +62,22 @@
         }
 
         /* Input and Label Styling */
-        label { 
-            display: block; 
-            margin-bottom: 5px; 
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: 600;
             color: #333;
             font-size: 0.9em;
         }
-        
-        input:not([type="submit"]), textarea { 
-            display: block; 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 20px; 
-            box-sizing: border-box; 
-            border: 1px solid #ccc; 
+
+        input:not([type="submit"]),
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 1em;
         }
@@ -84,75 +88,76 @@
             justify-content: space-around;
             gap: 15px;
             margin-bottom: 25px;
-            flex-wrap: wrap; 
+            flex-wrap: wrap;
         }
 
         .product-card {
             /* RESTORED: Allows two cards per row in the 400px container */
-            flex: 1 1 45%; 
+            flex: 1 1 45%;
             cursor: pointer;
             border: 2px solid #ccc;
             border-radius: 8px;
             padding: 10px;
             /* RESTORED: Centers content vertically */
-            text-align: center; 
+            text-align: center;
             transition: all 0.2s ease;
             background-color: #f9f9f9;
         }
 
-        
+
 
         .product-card:hover {
-            border-color: var(--medilight-orange); 
+            border-color: var(--medilight-orange);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .product-card.selected {
-            border-color: var(--medilight-green); 
+            border-color: var(--medilight-green);
             border-width: 3px;
-            background-color: #e6ffe6; 
+            background-color: #e6ffe6;
         }
 
         .product-card img {
             /* RESTORED: Fills the card width and limits height */
-            width: 100%; 
-            max-height: 80px; 
+            width: 100%;
+            max-height: 80px;
             object-fit: cover;
             border-radius: 4px;
             /* RESTORED: margin for spacing below the image */
-            margin-bottom: 5px; 
+            margin-bottom: 5px;
         }
-        
+
         .product-card p {
             /* RESTORED: Smaller font size for sub-text */
-            font-size: 0.9em; 
+            font-size: 0.9em;
             font-weight: bold;
             color: var(--medilight-blue);
             margin: 0;
             /* flex-grow removed */
         }
-        
+
         /* Button Styling */
-        input[type="submit"] { 
-            background-color: var(--medilight-blue); 
-            color: white; 
-            padding: 15px; 
-            border: none; 
-            border-radius: 6px; 
-            cursor: pointer; 
+        input[type="submit"] {
+            background-color: var(--medilight-blue);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
             font-weight: bold;
             letter-spacing: 0.5px;
-            margin-top: 10px; 
+            margin-top: 10px;
             width: 100%;
             transition: background-color 0.3s ease, transform 0.1s;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        
-        <img src="assets/logo.png" alt="Medilight Supplies Logo" class="logo">
-        
+
+        <img src="images/logo.jpg" alt="Medilight Supplies Logo" class="logo">
+
         <h1>MEDILIGHT SUPPLIES</h1>
         <p>"ORDER FORM"</p>
 
@@ -165,47 +170,48 @@
 
             <label>Select Product Category:</label>
             <div id="productSelectorContainer">
-                
+
                 <div class="product-card" data-product-category="High-Tech Imaging">
-                    <img src="assets/mri.jpeg" alt="High-Tech Imaging Equipment"> 
+                    <img src="images/mri.jpeg" alt="High-Tech Imaging Equipment">
                     <p>Imaging Machines</p>
                 </div>
 
                 <div class="product-card" data-product-category="Orthopaedic Implants">
-                    <img src="assets/orthopedic implants.jpeg" alt="Orthopaedic Implants/Screws"> 
+                    <img src="images/orthopedic implants.jpeg" alt="Orthopaedic Implants/Screws">
                     <p>Orthopaedic Implants</p>
                 </div>
 
                 <div class="product-card" data-product-category="Dialysis Machines">
-                    <img src="assets/dialysis machine.jpeg" alt="Dialysis Machines">
+                    <img src="images/dialysis machine.jpeg" alt="Dialysis Machines">
                     <p>Dialysis Machines</p>
                 </div>
-                
+
                 <div class="product-card" data-product-category="Medical Consumables">
-                    <img src="assets/medical consumables.jpeg" alt="Medical Consumables">
+                    <img src="images/medical consumables.jpeg" alt="Medical Consumables">
                     <p>Consumables</p>
                 </div>
-                
-                <input type="hidden" id="productCategoryHidden" required> 
+
+                <input type="hidden" id="productCategoryHidden" required>
             </div>
-            
+
             <label for="quantity">Quantity (Estimated):</label>
             <input type="number" id="quantity" min="1" value="1" required>
 
             <label for="specificNeeds">Specific Equipment/Model & Needs:</label>
-            <textarea id="specificNeeds" rows="3" placeholder="e.g., Siemens MRI Model X, required by Q1 2026."></textarea>
+            <textarea id="specificNeeds" rows="3"
+                placeholder="e.g., Siemens MRI Model X, required by Q1 2026."></textarea>
 
             <input type="submit" value="Proceed to Delivery Details">
         </form>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const cards = document.querySelectorAll('.product-card');
             const hiddenInput = document.getElementById('productCategoryHidden');
 
             cards.forEach(card => {
-                card.addEventListener('click', function() {
+                card.addEventListener('click', function () {
                     cards.forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     const category = this.getAttribute('data-product-category');
@@ -214,19 +220,19 @@
             });
         });
 
-        document.getElementById('orderForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            
+        document.getElementById('orderForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
             const productCategory = document.getElementById('productCategoryHidden').value;
             if (!productCategory) {
                 alert("Please select a product category by clicking one of the cards before proceeding.");
-                return; 
+                return;
             }
 
             const orderData = {
                 clientName: document.getElementById('clientName').value,
                 contactEmail: document.getElementById('contactEmail').value,
-                productCategory: productCategory, 
+                productCategory: productCategory,
                 quantity: document.getElementById('quantity').value,
                 specificNeeds: document.getElementById('specificNeeds').value,
                 orderDate: new Date().toLocaleDateString('en-US')
@@ -237,4 +243,5 @@
         });
     </script>
 </body>
+
 </html>
