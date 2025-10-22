@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDILIGHT SUPPLIES - Delivery Details</title>
     <style>
-        /* ------------------------------------------------ */
-        /* Updated CSS to match the aesthetic and theme colors */
-        /* ------------------------------------------------ */
+        
         :root {
             --medilight-blue: #007bff; 
             --medilight-orange: #ff9900; 
@@ -18,7 +16,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
             padding: 0;
-            /* Gradient Background: Green to Blue */
             background: linear-gradient(135deg, var(--medilight-green) 0%, var(--medilight-blue) 100%);
             min-height: 100vh;
             display: flex;
@@ -31,7 +28,6 @@
             padding: 40px; 
             border-radius: 12px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-            /* Consistent width adjustment */
             max-width: 450px; 
             width: 90%;
         }
@@ -95,7 +91,7 @@
             font-size: 1em;
         }
 
-        /* Button Styling */
+    
         button { 
             background-color: var(--medilight-blue); 
             color: white; 
@@ -183,7 +179,7 @@
             // Client-side confirmation alert (In a real app, data would be sent to a server here)
             alert(`Order Confirmed! Your request has been submitted for delivery to: ${deliveryAddress}. A Medilight Supplies professional will contact you soon.`);
 
-            // Clear the stored data after confirmation
+
             localStorage.removeItem('currentOrder');
         }
     </script>
