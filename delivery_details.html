@@ -142,46 +142,7 @@
             <p>A representative will contact you shortly via <span id="displayEmail" style="font-weight: bold;"></span> to finalize the details and provide a customized quote.</p>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Retrieve the order data saved in the previous page
-            const storedData = localStorage.getItem('currentOrder');
-            const orderSummaryList = document.getElementById('orderSummaryList');
-            const displayEmail = document.getElementById('displayEmail');
-
-            if (storedData) {
-                const orderData = JSON.parse(storedData);
-                
-                // Display the gathered order data
-                orderSummaryList.innerHTML = `
-                    <li><strong>Client Name:</strong> ${orderData.clientName}</li>
-                    <li><strong>Contact Email:</strong> ${orderData.contactEmail}</li>
-                    <li><strong>Order Date:</strong> ${orderData.orderDate}</li>
-                    <li><strong>Product Category:</strong> ${orderData.productCategory}</li>
-                    <li><strong>Estimated Quantity:</strong> ${orderData.quantity}</li>
-                    <li><strong>Specific Needs:</strong> ${orderData.specificNeeds || 'None provided'}</li>
-                `;
-                
-                displayEmail.textContent = orderData.contactEmail;
-
-            } else {
-                orderSummaryList.innerHTML = '<li>No order data found. Please return to the order page to start a new order.</li>';
-            }
-        });
-
-        function confirmOrder() {
-            const deliveryAddress = document.getElementById('deliveryAddress').value;
-            if (!deliveryAddress) {
-                alert("Please enter a delivery/installation address.");
-                return;
-            }
-
-            // Client-side confirmation alert (In a real app, data would be sent to a server here)
-            alert(`Order Confirmed! Your request has been submitted for delivery to: ${deliveryAddress}. A Medilight Supplies professional will contact you soon.`);
-
-
-            localStorage.removeItem('currentOrder');
-        }
-    </script>
+    
+    <script src="js/delivery_details.js"></script>
 </body>
 </html>

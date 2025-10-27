@@ -1,73 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>About Us</title>
-    <link rel="stylesheet" href="aboutStyle.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Medilight Supplies</title>
+    <link rel="stylesheet" href="equipment.css">
+    
+    <style>
+        .about-content {
+            padding: 40px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            max-width: 1000px;
+        }
+        
+        .about-content h2 {
+            color: #007bff;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .about-content p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .mission-vision {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mission-vision div {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .mission-vision h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="page" role="main">
-        <!-- ✅ Fixed Breadcrumb -->
-        <div class="breadcrumb">
-            <a href="homepage.html">Homepage</a>
-            <span>&raquo;</span>
-            <strong>About us</strong>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for...">
+            </div>
+            <div class="icons">
+                <div class="icon">
+                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
+                    <div>Account</div>
+                </div>
+                <div class="icon">
+                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
+                    <div>Wishlist</div>
+                </div>
+                <div class="icon">
+                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
+                    <div>My Cart</div>
+                </div>
+            </div>
         </div>
+        <h1 class="title">About Medilight Supplies</h1>
 
-        <section class="hero" aria-label="Our story">
-            <div class="hero-left">
-                <div class="eyebrow">OUR STORY:</div>
-                <h1 id="headline">Delivering Excellence in Healthcare</h1>
-                <p class="lead" id="leadText">
-                    Pioneering innovative medical supplies for a healthier tomorrow.
-                    We partner with hospitals and clinics to ensure quality products and services that improve patient
-                    outcomes.
-                </p>
+        <div class="about-content">
+            <p style="font-style: italic; font-size: 1.1em; color: #333;">
+                Medilight Supplies is a leading distributor of high-quality medical equipment, surgical tools, and essential pharmaceuticals, dedicated to supporting healthcare providers across the region.
+            </p>
 
+            <h2>Our Story</h2>
+            <p>
+                Founded in 2018, Medilight Supplies was established with the core belief that access to reliable and modern medical technology should be seamless for every clinic, hospital, and laboratory. We bridge the gap between world-class manufacturers and the local healthcare system, ensuring timely delivery and exceptional service.
+            </p>
+            <p>
+                We specialize in everything from advanced diagnostic imaging systems to life-saving pharmaceuticals and specialized orthopedic implants.
+            </p>
+
+            <div class="mission-vision">
+                <div>
+                    <h3>Our Mission</h3>
+                    <p>To empower healthcare institutions by providing reliable, innovative, and cost-effective medical supplies that enhance patient care outcomes and operational efficiency.</p>
+                </div>
+                <div>
+                    <h3>Our Vision</h3>
+                    <p>To be the trusted and preferred medical supplier in the region, recognized for quality, integrity, and commitment to public health.</p>
+                </div>
             </div>
 
-            <div class="hero-right" aria-hidden="true">
-                <img src="images/about.jpg" alt="Healthcare team discussing a patient case" />
-            </div>
-        </section>
-
-        <section class="mv-row" aria-label="Mission and Vision">
-            <div class="mv mission">
-                <h3>Our Mission</h3>
-                <p>To be the true friend to our consumers — delivering reliable, affordable and innovative medical
-                    solutions.</p>
-            </div>
-            <div class="mv vision">
-                <h3>Our Vision</h3>
-                <p>To be the most sought-after solution provider in various fields across Kenya and the region.</p>
-            </div>
-        </section>
-
-        <div class="section-title">Our Core Values</div>
-
-        <section class="values" aria-label="Core values">
-            <div class="val" data-value="Integrity">
-                <img src="images/integ.png" alt="Integrity Icon" />
-                <p>Integrity</p>
-            </div>
-
-            <div class="val" data-value="Innovation">
-                <img src="images/invo.jpg" alt="Innovation Icon" />
-                <p>Innovation</p>
-            </div>
-
-            <div class="val" data-value="Quality">
-                <img src="images/quality.png" alt="Quality Icon" />
-                <p>Quality</p>
-            </div>
-        </section>
+            <h2>Commitment to Quality</h2>
+            <p>
+                Every product listed on our site undergoes rigorous quality assurance checks and adheres to international safety standards. We partner exclusively with certified manufacturers to guarantee the efficacy and reliability of our entire catalogue.
+            </p>
+        </div>
     </div>
-
-    <!-- link JS file -->
-    <script src="aboutjs.js"></script>
+    
+    <script src="js/product_listing.js"></script> 
 </body>
-
 </html>

@@ -2,92 +2,78 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Equipment - Medilight</title>
-  <link rel="stylesheet" href="equipment.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Tech Equipment - MEDILIGHT SUPPLIES</title>
+    <link rel="stylesheet" href="equipment.css">
+    </head>
 
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="logo">
-        <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
-      </div>
-      <div class="search-bar">
-        <input type="text" placeholder="Search for...">
-      </div>
-      <div class="icons">
-        <div class="icon">
-          <a href="login.html"><img src="images/profile.png" alt="Account"></a>
-          <div>Account</div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for...">
+            </div>
+            <div class="icons">
+                <div class="icon">
+                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
+                    <div>Account</div>
+                </div>
+                <div class="icon">
+                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
+                    <div>Wishlist</div>
+                </div>
+                <div class="icon">
+                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
+                    <div>My Cart</div>
+                </div>
+            </div>
         </div>
-        <div class="icon">
-          <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
-          <div>Wishlist</div>
-        </div>
-        <div class="icon">
-          <a href="order_page.html"><img src="images/order.png" alt="Order"></a>
-          <div>your order</div>
-        </div>
-        <div class="icon">
-          <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
-          <div>My Cart</div>
+        <h1 class="page-title">High-Tech Medical Equipment</h1>
 
-        </div>
-      </div>
-    </div>
-    <h1 class="title">EQUIPMENTS</h1>
-    <nav class="nav-menu">
-      <div class="dropdown">
-        <a href="#" class="nav-link">Brands</a>
-        <div class="dropdown-content">
-          <a href="medtronic.html">Medtronic</a>
-          <a href="zimmer_biomet.html">Zimmer Biomet</a>
-          <a href="b_braun.html">B. Braun</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <a href="pharmaceuticals.html" class="nav-link">Pharmaceuticals</a>
-        <div class="dropdown-content">
-          <a href="#test-tubes">Test Tubes</a>
-          <a href="#capsule-machines">Capsule Machines</a>
-          <a href="#mixers-blenders">Mixers & Blenders</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <a href="othorpedic.html" class="nav-link">Orthopaedic</a>
-        <div class="dropdown-content">
-          <a href="#">Tools</a>
-          <a href="#">syringees</a>
-        </div>
-      </div>
-      <div class="dropdown">
-        <a href="radiography.html" class="nav-link">Radiography</a>
-        <div class="dropdown-content">
-          <a href="#"> X-ray Machine </a>
-          <a href="#">dental Machine </a>
-        </div>
-      </div>
-    </nav>
+        <div class="pharma-equipment-grid">
 
+            <div class="equipment-item">
+                <img src="images/mri.jpeg" alt="Siemens Magnetom MRI Scanner" class="equipment-img">
+                
+                <h3 class="equipment-name">MRI Scanner</h3>
+                <p class="equipment-description">3.0 Tesla ultra-high field imaging system.</p>
 
+                <p class="equipment-price">Ksh 15,500,000</p>
+                
+                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
+                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
+            </div>
 
-    <div class="brands">
-      <a href="Medtronic.html" class="brand">
-        <img src="images/MEDTRONIC01.jpg" alt="Medtronic Equipment">
-        <div class="brand-name">Medtronic</div>
-      </a>
-      <a href="Zimmer_biomet.html" class="brand">
-        <img src="images/Zimmer-Biomet.png" alt="Zimmer-Biomet Equipment">
-        <div class="brand-name">Zimmer Biomet</div>
-      </a>
-      <a href="b_braun.html" class="brand">
-        <img src="images/B.Braun.png" alt="B.Braun Equipment">
-        <div class="brand-name">B.Braun</div>
-      </a>
-    </div>
-  </div>
+            <div class="equipment-item">
+                <img src="images/dialysis machine.jpeg" alt="Fresenius dialysis machine" class="equipment-img">
+                
+                <h3 class="equipment-name">DIALYSIS MACHINE</h3>
+                <p class="equipment-description">128-slice multi-detector computed tomography.</p>
+                <p class="equipment-price">Ksh 8,250,000</p>
+                
+                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
+                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
+            </div>
+            
+            <div class="equipment-item">
+                <img src="images/img6.png" alt="Dräger Primus Anesthesia Workstation" class="equipment-img">
+                
+                <h3 class="equipment-name">Anesthesia Workstation</h3>
+                <p class="equipment-description">High-end solution for advanced anesthesia care.</p>
+                <p class="equipment-price">Ksh 4,100,000</p>
+                
+                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
+                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
+            </div>
+
+            </div>
+        </div>
+
+    <script src="js/product_listing.js"></script>
 </body>
 
 </html>

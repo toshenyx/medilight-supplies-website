@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Thank You - MEDILIGHT SUPPLIES</title>
+    <link rel="stylesheet" href="equipment.css">
+    
+    <style>
+        /* Specific styles for the Thank You message box */
+        .thank-you-box {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            /* Highlight box with a success color border */
+            border: 5px solid #28a745; 
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .thank-you-box h2 {
+            color: #28a745; /* Success Green */
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+        
+        .thank-you-box p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        
+        .order-details-summary {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .order-details-summary strong {
+            color: #007bff; /* Primary Blue */
+            font-weight: bold;
+        }
+
+        .thank-you-box a {
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        
+        .thank-you-box a:hover {
+            background: #0056b3;
+        }
+        
+        .thank-you-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for...">
+            </div>
+            <div class="icons">
+                <div class="icon">
+                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
+                    <div>Account</div>
+                </div>
+                <div class="icon">
+                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
+                    <div>Wishlist</div>
+                </div>
+                <div class="icon">
+                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
+                    <div>My Cart</div>
+                    </div>
+            </div>
+        </div>
+        <h1 class="title">Order Confirmed!</h1>
+
+        <div class="thank-you-box">
+            <span class="thank-you-icon">✅</span>
+            <h2>Thank You for Your Order!</h2>
+            
+            <p>Your order has been successfully placed. We appreciate your business!</p>
+            
+            <div class="order-details-summary">
+                <p>Order Number: <strong>#MLT-2025-0427</strong></p>
+                <p>A confirmation email has been sent to your address.</p>
+                <p>Estimated Delivery: **3-5 Business Days**</p>
+            </div>
+            
+            <a href="index.html">Continue Shopping</a>
+        </div>
+    </div>
+    
+    <script src="js/product_listing.js"></script>
+</body>
+</html>

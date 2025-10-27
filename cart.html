@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Cart - Medilight</title>
   <link rel="stylesheet" href="equipment.css">
-</head>
+  </head>
 
 <body>
   <div class="container">
@@ -37,28 +37,25 @@
     <h1 class="title">My Cart</h1>
 
     <div class="cart-table">
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="image-placeholder">Image Placeholder</div>
-            </td>
-            <td>5,000</td>
-            <td>3</td>
-            <td><button class="order-btn">Order</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div id="cartItemsContainer">
+        <p class="loading-message">Loading cart...</p>
+      </div>
     </div>
+
+    <div class="cart-summary">
+      <p class="summary-line">
+        Subtotal: 
+        <span id="subtotal">Ksh 0.00</span>
+      </p>
+
+      <button id="checkoutButton" onclick="window.location.href='order_page.html'" disabled>
+        Proceed to Checkout
+      </button>
+    </div>
+
   </div>
+  
+  <script src="js/cart_page.js"></script>
 </body>
 
 </html>

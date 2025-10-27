@@ -205,43 +205,7 @@
         </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const cards = document.querySelectorAll('.product-card');
-            const hiddenInput = document.getElementById('productCategoryHidden');
-
-            cards.forEach(card => {
-                card.addEventListener('click', function () {
-                    cards.forEach(c => c.classList.remove('selected'));
-                    this.classList.add('selected');
-                    const category = this.getAttribute('data-product-category');
-                    hiddenInput.value = category;
-                });
-            });
-        });
-
-        document.getElementById('orderForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const productCategory = document.getElementById('productCategoryHidden').value;
-            if (!productCategory) {
-                alert("Please select a product category by clicking one of the cards before proceeding.");
-                return;
-            }
-
-            const orderData = {
-                clientName: document.getElementById('clientName').value,
-                contactEmail: document.getElementById('contactEmail').value,
-                productCategory: productCategory,
-                quantity: document.getElementById('quantity').value,
-                specificNeeds: document.getElementById('specificNeeds').value,
-                orderDate: new Date().toLocaleDateString('en-US')
-            };
-
-            localStorage.setItem('currentOrder', JSON.stringify(orderData));
-            window.location.href = 'delivery_details.html';
-        });
-    </script>
+    <script src="js/order_form.js"></script>
 </body>
 
 </html>

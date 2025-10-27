@@ -4,17 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Login / Register - Medilight Supplies</title>
+    <link rel="stylesheet" href="equipment.css">
+    
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #007bff, #28a745, #ffc107);
+        /*
+         * Note: The body background and height are handled by equipment.css 
+         * for consistency with the rest of the site's body tag.
+         */
+        
+        /* Ensure the login box is centered below the main header */
+        .login-page-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /* Adjust height based on where the header ends */
+            min-height: calc(100vh - 150px); 
         }
 
         .login-container {
@@ -24,9 +29,11 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
+            /* Animation for smooth appearance */
+            animation: fadeIn 0.5s ease-out; 
         }
 
-        .logo {
+        .logo-login-box { /* Renamed class to avoid conflict with header .logo */
             width: 100px;
             height: 100px;
             margin: 0 auto 30px;
@@ -35,7 +42,7 @@
             border: 2px solid #ddd;
         }
 
-        .logo img {
+        .logo-login-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -61,12 +68,12 @@
             box-sizing: border-box;
         }
 
-        button {
+        .login-button { /* Added unique class for form button */
             width: 100%;
             padding: 12px;
-            background-color: white;
-            color: #000;
-            border: 1px solid #6c9cff;
+            background-color: #007bff; /* Changed to primary color */
+            color: white;
+            border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
@@ -74,8 +81,8 @@
             transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #f0f0f0;
+        .login-button:hover {
+            background-color: #0056b3;
         }
 
         .links {
@@ -87,6 +94,7 @@
         .links a {
             text-decoration: none;
             font-size: 14px;
+            transition: color 0.3s;
         }
 
         .links a:first-child {
@@ -94,34 +102,66 @@
         }
 
         .links a:last-child {
-            color: #ffc107;
+            color: #ff9900; /* Used orange from the main color scheme */
+        }
+        .links a:hover {
+             text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="logo">
-
-            <img src="images/logo.jpg" alt="Logo">
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for...">
+            </div>
+            <div class="icons">
+                <div class="icon">
+                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
+                    <div>Account</div>
+                </div>
+                <div class="icon">
+                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
+                    <div>Wishlist</div>
+                </div>
+                <div class="icon">
+                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
+                    <div>My Cart</div>
+                    </div>
+            </div>
         </div>
-        <h1>LOGIN PAGE</h1>
+        <div class="login-page-container">
+            <div class="login-container">
+                <div class="logo-login-box">
+                    <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+                </div>
+                <h1>LOGIN PAGE</h1>
 
-        <div class="input-group">
-            <input type="email" placeholder="Enter email" required>
-        </div>
+                <form>
+                    <div class="input-group">
+                        <input type="email" placeholder="Enter email" required>
+                    </div>
 
-        <div class="input-group">
-            <input type="password" placeholder="Enter password" required>
-        </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Enter password" required>
+                    </div>
 
-        <button type="submit">LOGIN</button>
+                    <button type="submit" class="login-button">LOGIN</button>
+                </form>
 
-        <div class="links">
-            <a href="#">Forgot Password ?</a>
-            <a href="signup.html">Do not have account! Sign Up</a>
+                <div class="links">
+                    <a href="#">Forgot Password?</a>
+                    <a href="signup.html">Do not have account! Sign Up</a>
+                </div>
+            </div>
         </div>
     </div>
+    
+    <script src="js/product_listing.js"></script> 
 </body>
 
 </html>
