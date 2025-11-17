@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Register - Medilight Supplies</title>
-    <link rel="stylesheet" href="all.css">
-    
+    <title>Login Page</title>
     <style>
-        /*
-         * Note: The body background and height are handled by equipment.css 
-         * for consistency with the rest of the site's body tag.
-         */
-        
-        /* Ensure the login box is centered below the main header */
-        .login-page-container {
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #007bff, #28a745, #ffc107);
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Adjust height based on where the header ends */
-            min-height: calc(100vh - 150px); 
+            height: 100vh;
         }
-
+        
         .login-container {
             background-color: white;
             padding: 40px;
@@ -29,11 +23,9 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             width: 350px;
             text-align: center;
-            /* Animation for smooth appearance */
-            animation: fadeIn 0.5s ease-out; 
         }
-
-        .logo-login-box { /* Renamed class to avoid conflict with header .logo */
+        
+        .logo {
             width: 100px;
             height: 100px;
             margin: 0 auto 30px;
@@ -41,23 +33,23 @@
             overflow: hidden;
             border: 2px solid #ddd;
         }
-
-        .logo-login-box img {
+        
+        .logo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
+        
         h1 {
             margin-bottom: 30px;
             color: #000;
             font-weight: bold;
         }
-
+        
         .input-group {
             margin-bottom: 20px;
         }
-
+        
         input[type="email"],
         input[type="password"] {
             width: 100%;
@@ -67,101 +59,66 @@
             font-size: 16px;
             box-sizing: border-box;
         }
-
-        .login-button { /* Added unique class for form button */
+        
+        button {
             width: 100%;
             padding: 12px;
-            background-color: #007bff; /* Changed to primary color */
-            color: white;
-            border: none;
+            background-color: white;
+            color: #000;
+            border: 1px solid #6c9cff;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             margin-top: 10px;
             transition: background-color 0.3s;
         }
-
-        .login-button:hover {
-            background-color: #0056b3;
+        
+        button:hover {
+            background-color: #f0f0f0;
         }
-
+        
         .links {
             display: flex;
             justify-content: space-between;
             margin-top: 30px;
         }
-
+        
         .links a {
             text-decoration: none;
             font-size: 14px;
-            transition: color 0.3s;
         }
-
+        
         .links a:first-child {
             color: #007bff;
         }
-
+        
         .links a:last-child {
-            color: #ff9900; /* Used orange from the main color scheme */
-        }
-        .links a:hover {
-             text-decoration: underline;
+            color: #ffc107;
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for...">
-            </div>
-            <div class="icons">
-                <div class="icon">
-                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
-                    <div>Account</div>
-                </div>
-                <div class="icon">
-                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
-                    <div>Wishlist</div>
-                </div>
-                <div class="icon">
-                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
-                    <div>My Cart</div>
-                    </div>
-            </div>
+    <div class="login-container">
+        <div class="logo">
+            
+            <img src="images/logo.jpg" alt="Logo">
         </div>
-        <div class="login-page-container">
-            <div class="login-container">
-                <div class="logo-login-box">
-                    <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
-                </div>
-                <h1>LOGIN PAGE</h1>
-
-                <form>
-                    <div class="input-group">
-                        <input type="email" placeholder="Enter email" required>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="password" placeholder="Enter password" required>
-                    </div>
-
-                    <button type="submit" class="login-button">LOGIN</button>
-                </form>
-
-                <div class="links">
-                    <a href="#">Forgot Password?</a>
-                    <a href="signup.html">Do not have account! Sign Up</a>
-                </div>
-            </div>
+        <h1>LOGIN PAGE</h1>
+        
+        <div class="input-group">
+            <input type="email" placeholder="Enter email" required>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" placeholder="Enter password" required>
+        </div>
+        
+        <button type="submit">LOGIN</button>
+        
+        <div class="links">
+            <a href="password.html">Forgot Password ?</a>
+            <a href="signup.html">Do not have account! Sign Up</a>
         </div>
     </div>
-    
-    <script src="js/product_listing.js"></script> 
 </body>
-
 </html>
