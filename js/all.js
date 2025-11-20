@@ -332,14 +332,40 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- Core Action: Clear the cart --- 
-        localStorage.removeItem('medilightCart');
+        // Get order data from localStorage if it exists
+        const orderData = JSON.parse(localStorage.getItem('currentOrder') || '{}');
         
-        // Simulate Order Processing (In a real application, data would be sent to a server here)
-        alert('Order placed successfully! Redirecting to confirmation page.');
+        // Prepare form data to send to the server
+        const formData = new FormData(deliveryForm);
+        
+        // Add cart data to form
+        formData.append('cart', JSON.stringify(cart));
+        formData.append('order_data', JSON.stringify(orderData));
 
-        // Redirect to the thank you page
-        window.location.href = 'thank_you.html';
+        // Send data to server using fetch
+        fetch('process_delivery.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear cart after successful order
+                localStorage.removeItem('medilightCart');
+                
+                // Show success message and redirect
+                alert(data.message || 'Order placed successfully!');
+                
+                // Redirect to thank you page
+                window.location.href = data.redirect || 'thank_you.html';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing your order. Please try again.');
+        });
     };
 
     // --- Initialization --- 

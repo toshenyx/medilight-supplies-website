@@ -98,22 +98,25 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
+    <form action="login_handler.php" method="POST">
+        <div class="login-container">
+            <div class="logo">
+                
+                <img src="images/logo.jpg" alt="Logo">
+            </div>
+            <h1>LOGIN PAGE</h1>
             
-            <img src="images/logo.jpg" alt="Logo">
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Enter email" required>
+            </div>
+            
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Enter password" required>
+            </div>
+            
+            <button type="submit">LOGIN</button>
         </div>
-        <h1>LOGIN PAGE</h1>
-        
-        <div class="input-group">
-            <input type="email" placeholder="Enter email" required>
-        </div>
-        
-        <div class="input-group">
-            <input type="password" placeholder="Enter password" required>
-        </div>
-        
-        <button type="submit">LOGIN</button>
+    </form>
         
         <div class="links">
             <a href="password.html">Forgot Password ?</a>
