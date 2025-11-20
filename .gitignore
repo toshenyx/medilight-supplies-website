@@ -6,8 +6,8 @@ __pycache__/
 *.obj
 
 # Dependencies
-vendor/
-node_modules/
+venv/
+.venv/
 
 # Logs and temp files
 *.log
@@ -22,18 +22,4 @@ node_modules/
 # Editors
 .vscode/
 .idea/
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Coverage reports
-coverage/
-htmlcov/
-*.coverage
-
-# Distribution / packaging
-dist/
-build/
-*.egg-info/
 ```

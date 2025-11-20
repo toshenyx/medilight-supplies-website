@@ -125,6 +125,7 @@
         <h1>Confirm Your Order & Delivery Details</h1>
         <p>Your true partner in providing reliable and responsive services.</p>
 
+        <form id="deliveryForm" action="process_delivery.php" method="POST">
         <div id="orderDetails" class="confirmation-box">
             <h2>Order Summary:</h2>
             <ul id="orderSummaryList">
@@ -132,10 +133,11 @@
             </ul>
 
             <label for="deliveryAddress">Delivery/Installation Address:</label>
-            <textarea id="deliveryAddress" rows="3" placeholder="Full Address, City/Town, Country. Our engineers are trained for on-site support." required></textarea>
+            <textarea id="deliveryAddress" name="deliveryAddress" rows="3" placeholder="Full Address, City/Town, Country. Our engineers are trained for on-site support." required></textarea>
 
-            <button onclick="confirmOrder()">Confirm Order & Request Quote</button>
+            <button type="submit">Confirm Order & Request Quote</button>
         </div>
+    </form>
 
         <div class="support-info">
             <p><strong>Note:</strong> <span style="color:var(--medilight-blue); font-weight: bold;">MEDILIGHT SUPPLIES</span> offers <span style="color:var(--medilight-orange); font-weight: bold;">24/7 technical support</span> to keep operations running smoothly.</p>
