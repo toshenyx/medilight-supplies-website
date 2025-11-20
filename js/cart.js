@@ -1,19 +1,30 @@
 /**
  * js/cart_page.js
- * * Handles the rendering and dynamic interaction on the cart.html page.
+ * Handles the rendering and dynamic interaction on the cart.html page using database storage.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Shared utility function (must match the one in product_listing.js)
-    const getCart = () => {
-        const cartString = localStorage.getItem('medilightCart');
-        return cartString ? JSON.parse(cartString) : [];
+    // Get cart from database API
+    const getCart = async () => {
+        try {
+            const response = await fetch('api/cart_api.php', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            return data.success ? data.items : [];
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+            return [];
+        }
     };
 
-    const saveCart = (cart) => {
-        localStorage.setItem('medilightCart', JSON.stringify(cart));
+    // Save cart to database via API
+    const saveCart = async (cart) => {
         renderCart(); // Re-render the cart table after any change
-        // We rely on product_listing.js (which is also loaded) to update the header count
+        // We rely on other functions to update the header count
     };
 
     const cartBody = document.getElementById('cart-items-body');
@@ -34,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Renders the cart table dynamically.
      */
-    const renderCart = () => {
-        const cart = getCart();
+    const renderCart = async () => {
+        const cart = await getCart();
         cartBody.innerHTML = ''; // Clear previous content
 
         if (cart.length === 0) {
@@ -52,21 +63,21 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td class="product-col">
                     <div class="cart-product-info">
-                        <img src="${item.image}" alt="${item.name}" class="cart-product-image">
+                        <img src="${item.image_path || 'images/placeholder.jpg'}" alt="${item.name}" class="cart-product-image">
                         <span>${item.name}</span>
                     </div>
                 </td>
                 <td class="price-col">Ksh ${item.price.toLocaleString('en-US')}</td>
                 <td class="quantity-col">
                     <div class="quantity-controls">
-                        <button class="qty-minus" data-id="${item.id}">-</button>
-                        <input type="number" value="${item.quantity}" min="1" data-id="${item.id}" readonly>
-                        <button class="qty-plus" data-id="${item.id}">+</button>
+                        <button class="qty-minus" data-cart-id="${item.cart_id}">-</button>
+                        <input type="number" value="${item.quantity}" min="1" data-cart-id="${item.cart_id}" readonly>
+                        <button class="qty-plus" data-cart-id="${item.cart_id}">+</button>
                     </div>
                 </td>
                 <td class="total-col price-highlight">Ksh ${totalItemPrice.toLocaleString('en-US')}</td>
                 <td class="remove-col">
-                    <button class="remove-item" data-id="${item.id}">&times;</button>
+                    <button class="remove-item" data-cart-id="${item.cart_id}">&times;</button>
                 </td>
             `;
             cartBody.appendChild(row);
@@ -83,45 +94,79 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Handles quantity changes (plus/minus buttons).
      */
-    const handleQuantityChange = (itemId, change) => {
-        let cart = getCart();
-        const itemIndex = cart.findIndex(item => item.id === itemId);
-
-        if (itemIndex > -1) {
-            cart[itemIndex].quantity += change;
-
-            // Ensure quantity doesn't drop below 1
-            if (cart[itemIndex].quantity < 1) {
-                // If it hits zero or less, remove the item
-                cart.splice(itemIndex, 1); 
+    const handleQuantityChange = async (cartId, change) => {
+        // Get the current quantity from the input field
+        const inputField = document.querySelector(`input[data-cart-id="${cartId}"]`);
+        if (!inputField) return;
+        
+        let newQuantity = parseInt(inputField.value) + change;
+        if (newQuantity < 1) newQuantity = 1; // Ensure quantity doesn't go below 1
+        
+        try {
+            const response = await fetch('api/cart_api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'update',
+                    cart_id: cartId,
+                    quantity: newQuantity
+                })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                renderCart(); // Re-render to reflect changes
+            } else {
+                console.error('Error updating cart:', result.message);
             }
-            saveCart(cart);
+        } catch (error) {
+            console.error('Error updating cart:', error);
         }
     };
 
     /**
      * Handles item removal.
      */
-    const handleRemoveItem = (itemId) => {
-        let cart = getCart();
-        const newCart = cart.filter(item => item.id !== itemId);
-        saveCart(newCart);
+    const handleRemoveItem = async (cartId) => {
+        try {
+            const response = await fetch('api/cart_api.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: 'remove',
+                    cart_id: cartId
+                })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                renderCart(); // Re-render to reflect changes
+            } else {
+                console.error('Error removing item:', result.message);
+            }
+        } catch (error) {
+            console.error('Error removing item:', error);
+        }
     };
     
     // Event delegation for the entire cart table
     if (cartBody) {
         cartBody.addEventListener('click', (event) => {
             const target = event.target;
-            const itemId = target.getAttribute('data-id');
+            const cartId = target.getAttribute('data-cart-id');
 
-            if (!itemId) return; // Ignore clicks without an ID
+            if (!cartId) return; // Ignore clicks without an ID
 
             if (target.classList.contains('qty-plus')) {
-                handleQuantityChange(itemId, 1);
+                handleQuantityChange(cartId, 1);
             } else if (target.classList.contains('qty-minus')) {
-                handleQuantityChange(itemId, -1);
+                handleQuantityChange(cartId, -1);
             } else if (target.classList.contains('remove-item')) {
-                handleRemoveItem(itemId);
+                handleRemoveItem(cartId);
             }
         });
     }
