@@ -10,70 +10,74 @@
 
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
-            </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search for...">
-            </div>
-            <div class="icons">
-                <div class="icon">
-                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
-                    <div>Account</div>
-                </div>
-                <div class="icon">
-                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
-                    <div>Wishlist</div>
-                </div>
-                <div class="icon">
-                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
-                    <div>My Cart</div>
-                </div>
-            </div>
+        <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+      </div>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Search for...">
+      </div>
+
+      <div class="icons">
+        <!-- Wishlist Icon -->
+        <div class="icon">
+            <a href="wishlist.html">
+          <img src="images/wishlist.png" alt="Wishlist">
+          <div>Wishlist</div>
         </div>
+
+        <!-- Cart Icon -->
+        <div class="icon">
+          <a href="cart.html">
+            <img src="images/cart.png" alt="Cart">
+          </a>
+          <div>My Cart</div>
+        </div>
+      </div>
+    </div>
+
+        <!-- PAGE TITLE -->
         <h1 class="page-title">B. Braun Infusion and Surgical Solutions</h1>
 
-        <div class="pharma-equipment-grid">
-
-            <div class="equipment-item">
-                <img src="images/img1.png.jpg" alt="Medtronic equipment" class="equipment-img">
-                
-                <h3 class="equipment-name">Infusomat Space Pump</h3>
-                <p class="equipment-description">Compact modular infusion pump for critical care.</p>
-
-                <p class="equipment-price">Ksh 115,000</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-
-            <div class="equipment-item">
-                <img src="images/img2.png.jpg" alt="B. Braun Introcan Safety IV Catheter" class="equipment-img">
-                
-                <h3 class="equipment-name">Introcan Safety Catheter</h3>
-                <p class="equipment-description">Peripheral IV catheter with a fully automatic safety shield (Box of 50).</p>
-                <p class="equipment-price">Ksh 2,800</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-            
-            <div class="equipment-item">
-                <img src="images/img4.png" alt="Medtronic equipment" class="equipment-img">
-                
-                <h3 class="equipment-name">Novosyn Surgical Suture</h3>
-                <p class="equipment-description">Braided absorbable suture for general surgery (Box of 36).</p>
-                <p class="equipment-price">Ksh 9,500</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-
-            </div>
+        <!-- DYNAMIC PRODUCTS GRID -->
+        <div class="pharma-equipment-grid" id="products-container">
+            Loading products...
         </div>
+    </div>
 
-<script src="js/all.js"></script>
+    <!-- FETCH PRODUCTS SCRIPT -->
+    <script>
+        fetch("fetch_products.php?brand=B. Braun&category=Neurosurgery")
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("products-container");
+                container.innerHTML = ""; // Clear loading text
+
+                if (data.length === 0) {
+                    container.innerHTML = "<p>No products available.</p>";
+                    return;
+                }
+
+                data.forEach(product => {
+                    container.innerHTML += `
+                        <div class="equipment-item">
+                            <img src="${product.image_url}" alt="${product.product_name}" class="equipment-img">
+                            <h3 class="equipment-name">${product.product_name}</h3>
+                            <p class="equipment-description">${product.description}</p>
+                            <p class="equipment-price">Ksh ${Number(product.price).toLocaleString()}</p>
+                            <button class="add-btn equipment-cart">🛒 Add to Cart</button>
+                            <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                console.error("Error loading products:", err);
+                document.getElementById("products-container").innerHTML = "<p>Error loading products.</p>";
+            });
+    </script>
 </body>
 
 </html>

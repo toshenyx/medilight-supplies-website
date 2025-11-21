@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brands - Medilight</title>
+  <link rel="stylesheet" href="brands.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
+      </div>
+
+      <div class="search-bar">
+        <input type="text" placeholder="Search for...">
+      </div>
+
+      <div class="icons">
+        <!-- Wishlist Icon -->
+        <div class="icon">
+          <img src="images/wishlist.png" alt="Wishlist">
+          <div>Wishlist</div>
+        </div>
+
+        <!-- Cart Icon -->
+        <div class="icon">
+          <a href="cart.html">
+            <img src="images/cart.png" alt="Cart">
+          </a>
+          <div>My Cart</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <h1 class="title">BRANDS</h1>
+
+    <!-- DYNAMIC BRAND SECTION -->
+    <div class="brands" id="brands-container">Loading brands...</div>
+
+  </div>
+
+  <!-- BRAND FETCH SCRIPT -->
+  <script>
+    fetch("fetch_brands.php")
+      .then(response => response.json())
+      .then(data => {
+        let container = document.getElementById("brands-container");
+        container.innerHTML = ""; // clear loading text
+
+        if (data.length === 0) {
+          container.innerHTML = "<p>No brands available.</p>";
+          return;
+        }
+
+        data.forEach(brand => {
+          container.innerHTML += `
+            <a href="${brand.page_url}" class="brand">
+              <img src="${brand.image_url}" alt="${brand.brand_name}">
+              <div class="brand-name">${brand.brand_name}</div>
+            </a>
+          `;
+        });
+      })
+      .catch(error => {
+        document.getElementById("brands-container").innerHTML = 
+          "<p>Error loading brands.</p>";
+        console.error("Error loading brands:", error);
+      });
+  </script>
+
+</body>
+</html>

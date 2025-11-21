@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wishlist - MEDILIGHT SUPPLIES</title>
     <link rel="stylesheet" href="all.css">
-    
-    </head>
+</head>
 
 <body>
     <div class="container">
+        <!-- HEADER -->
         <div class="header">
             <div class="logo">
                 <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
@@ -19,85 +19,95 @@
                 <input type="text" placeholder="Search for...">
             </div>
             <div class="icons">
-                <div class="icon">
-                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
-                    <div>Account</div>
-                </div>
+                <!-- Wishlist Icon -->
                 <div class="icon">
                     <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
                     <div>Wishlist</div>
                 </div>
+                <!-- Cart Icon -->
                 <div class="icon">
                     <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
                     <div>My Cart</div>
-                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- BREADCRUMB -->
         <div class="breadcrumb">
             <a href="homepage.html">Home</a>
             <span>/</span> <span class="current">My Wishlist</span>
         </div>
 
+        <!-- WISHLIST TABLE -->
         <div class="wishlist-container">
             <h1 class="wishlist-header">My Wishlist</h1>
-
             <table class="wishlist-table">
                 <thead>
                     <tr>
-                        <th style="width: 45%;">Product</th> 
+                        <th style="width: 45%;">Product</th>
                         <th style="width: 15%;">Unit Price</th>
                         <th style="width: 15%;">Quantity</th>
                         <th style="width: 25%;">Action</th>
                     </tr>
                 </thead>
                 <tbody id="wishlist-body">
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <img src="images/img3.png.jpg" alt="MRI Scanner" class="product-image">
-                                <span>MRI Scanner System</span>
-                            </div>
-                        </td>
-                        <td class="price">4,000,000</td>
-                        <td class="quantity">3</td>
-                        <td>
-                            <div class="action-container">
-                                <span class="cart-text">Cart</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="order-text">Order</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <img src="images/orthopedic implants.jpeg" alt="Medical Implants" class="product-image">
-                                <span>Orthopedic Implants Set</span>
-                            </div>
-                        </td>
-                        <td class="price">500,000</td>
-                        <td class="quantity">1</td>
-                        <td>
-                            <div class="action-container">
-                                <span class="cart-text">Cart</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="order-text">Order</span>
-                            </div>
-                        </td>
-                    </tr>
+                    <!-- Items will be loaded here -->
                 </tbody>
             </table>
         </div>
     </div>
-    
-    <script src="js/product_listing.js"></script>
-    <script src="wishlist.js"></script>
-</body>
 
+    <!-- FETCH WISHLIST SCRIPT -->
+    <script>
+        fetch("fetch_wishlist.php")
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById("wishlist-body");
+                tbody.innerHTML = "";
+
+                if(data.length === 0){
+                    tbody.innerHTML = `<tr><td colspan="4">Your wishlist is empty.</td></tr>`;
+                    return;
+                }
+
+                data.forEach(item => {
+                    tbody.innerHTML += `
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <a href="product_details.php?id=${item.id}">
+                                    <img src="${item.image_url}" alt="${item.product_name}" class="product-image">
+                                </a>
+                                <a href="product_details.php?id=${item.id}">${item.product_name}</a>
+                            </div>
+                        </td>
+                        <td>Ksh ${Number(item.price).toLocaleString()}</td>
+                        <td>1</td>
+                        <td>
+                            <button class="remove-wishlist-btn" data-wishlist-id="${item.wishlist_id}">❌ Remove</button>
+                        </td>
+                    </tr>`;
+                });
+
+                // REMOVE WISHLIST ITEM
+                document.querySelectorAll(".remove-wishlist-btn").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const wishlistId = btn.dataset.wishlistId;
+                        fetch("remove_from_wishlist.php", {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({ wishlist_id: wishlistId })
+                        })
+                        .then(res => res.json())
+                        .then(res => {
+                            alert(res.message);
+                            btn.closest("tr").remove(); // Remove row from table
+                        })
+                        .catch(err => console.error(err));
+                    });
+                });
+            })
+            .catch(err => console.error("Error loading wishlist:", err));
+    </script>
+</body>
 </html>

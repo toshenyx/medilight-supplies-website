@@ -4,41 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEDILIGHT SUPPLIES - Order Form</title>
+    <title>Checkout - MEDILIGHT SUPPLIES</title>
     <style>
         :root {
             --medilight-blue: #007bff;
-            /* Primary Blue (Trust, Professionalism) */
             --medilight-orange: #ff9900;
-            /* Secondary Orange (Energy, Innovation) */
             --medilight-green: #00a859;
-            /* Custom Green Theme */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-
             background: linear-gradient(135deg, var(--medilight-green) 0%, var(--medilight-blue) 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 20px;
         }
 
-        .container {
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+
+        .section {
             background-color: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-
-            max-width: 400px;
-            width: 90%;
-            transition: transform 0.3s ease;
+            margin-bottom: 20px;
         }
 
-        /* CSS for the Logo */
         .logo {
             display: block;
             width: 80px;
@@ -46,22 +48,21 @@
             margin: 0 auto 15px auto;
         }
 
-        /* Header Styling */
         h1 {
             color: var(--medilight-blue);
             text-align: center;
             font-size: 1.8em;
-            margin-top: 0;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
-        p {
-            text-align: center;
-            color: #666;
-            margin-bottom: 25px;
+        h2 {
+            color: var(--medilight-blue);
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--medilight-green);
+            padding-bottom: 10px;
         }
 
-        /* Input and Label Styling */
         label {
             display: block;
             margin-bottom: 5px;
@@ -70,74 +71,128 @@
             font-size: 0.9em;
         }
 
-        input:not([type="submit"]),
-        textarea {
-            display: block;
+        input:not([type="submit"]):not([type="radio"]),
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 1em;
         }
 
-        /* Visual Product Selector Styling (Restored to Vertical/Grid Layout) */
-        #productSelectorContainer {
-            display: flex;
-            justify-content: space-around;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
         }
 
-        .product-card {
-            /* RESTORED: Allows two cards per row in the 400px container */
-            flex: 1 1 45%;
-            cursor: pointer;
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
             border: 2px solid #ccc;
             border-radius: 8px;
-            padding: 10px;
-            /* RESTORED: Centers content vertically */
+            padding: 20px;
             text-align: center;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            transition: all 0.3s;
             background-color: #f9f9f9;
         }
 
-
-
-        .product-card:hover {
+        .payment-option:hover {
             border-color: var(--medilight-orange);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .product-card.selected {
+        .payment-option.selected {
             border-color: var(--medilight-green);
             border-width: 3px;
             background-color: #e6ffe6;
         }
 
-        .product-card img {
-            /* RESTORED: Fills the card width and limits height */
-            width: 100%;
-            max-height: 80px;
-            object-fit: cover;
-            border-radius: 4px;
-            /* RESTORED: margin for spacing below the image */
-            margin-bottom: 5px;
+        .payment-option img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+            object-fit: contain;
         }
 
-        .product-card p {
-            /* RESTORED: Smaller font size for sub-text */
-            font-size: 0.9em;
+        .payment-option p {
             font-weight: bold;
             color: var(--medilight-blue);
-            margin: 0;
-            /* flex-grow removed */
         }
 
-        /* Button Styling */
-        input[type="submit"] {
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+        }
+
+        .payment-details.active {
+            display: block;
+        }
+
+        .order-summary {
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item.total {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--medilight-blue);
+            border-bottom: 3px solid var(--medilight-green);
+            margin-top: 10px;
+        }
+
+        .voucher-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff9e6;
+            border-radius: 8px;
+            border: 1px dashed var(--medilight-orange);
+        }
+
+        .voucher-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .voucher-input-group input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .voucher-input-group button {
+            padding: 12px 20px;
+            background-color: var(--medilight-orange);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .voucher-input-group button:hover {
+            background-color: #e68a00;
+        }
+
+        .submit-btn {
             background-color: var(--medilight-blue);
             color: white;
             padding: 15px;
@@ -146,66 +201,417 @@
             cursor: pointer;
             font-weight: bold;
             letter-spacing: 0.5px;
-            margin-top: 10px;
             width: 100%;
-            transition: background-color 0.3s ease, transform 0.1s;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--medilight-green);
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 968px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: relative;
+                top: 0;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-
-        <img src="images/logo.jpg" alt="Medilight Supplies Logo" class="logo">
-
-        <h1>MEDILIGHT SUPPLIES</h1>
-        <p>"ORDER FORM"</p>
-
-        <form id="orderForm" action="process_order.php" method="POST">
-            <label for="clientName">Client/Company Name:</label>
-            <input type="text" id="clientName" name="clientName" required>
-
-            <label for="contactEmail">Contact Email (for responsive services):</label>
-            <input type="email" id="contactEmail" name="contactEmail" required>
-
-            <label>Select Product Category:</label>
-            <div id="productSelectorContainer">
-
-                <div class="product-card" data-product-category="High-Tech Imaging">
-                    <img src="images/mri.jpeg" alt="High-Tech Imaging Equipment">
-                    <p>Imaging Machines</p>
-                </div>
-
-                <div class="product-card" data-product-category="Orthopaedic Implants">
-                    <img src="images/orthopedic implants.jpeg" alt="Orthopaedic Implants/Screws">
-                    <p>Orthopaedic Implants</p>
-                </div>
-
-                <div class="product-card" data-product-category="Dialysis Machines">
-                    <img src="images/dialysis machine.jpeg" alt="Dialysis Machines">
-                    <p>Dialysis Machines</p>
-                </div>
-
-                <div class="product-card" data-product-category="Medical Consumables">
-                    <img src="images/medical consumables.jpeg" alt="Medical Consumables">
-                    <p>Consumables</p>
-                </div>
-
-                <input type="hidden" id="productCategoryHidden" name="productCategory" required>
+    <div class="checkout-container">
+        <!-- Left Column: Form -->
+        <div>
+            <div class="section">
+                <img src="images/logo.jpg" alt="Medilight Supplies Logo" class="logo">
+                <h1>CHECKOUT</h1>
+                <p style="text-align: center; color: #666;">Complete your order</p>
             </div>
 
-            <label for="quantity">Quantity (Estimated):</label>
-            <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+            <form id="checkoutForm" action="process_checkout.php" method="POST">
+                
+                <!-- Customer Information -->
+                <div class="section">
+                    <h2>Customer Information</h2>
+                    
+                    <label for="customerType">Customer Type:</label>
+                    <select id="customerType" name="customerType" required>
+                        <option value="">Select Customer Type</option>
+                        <option value="individual">Individual</option>
+                        <option value="company">Company</option>
+                    </select>
 
-            <label for="specificNeeds">Specific Equipment/Model & Needs:</label>
-            <textarea id="specificNeeds" name="specificNeeds" rows="3"
-                placeholder="e.g., Siemens MRI Model X, required by Q1 2026."></textarea>
+                    <label for="fullName">Full Name / Company Name:</label>
+                    <input type="text" id="fullName" name="fullName" required>
 
-            <input type="submit" value="Submit Order Request">
-        </form>
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+254 7XX XXX XXX" required>
+
+                    <!-- KRA PIN Section (Only for Companies) -->
+                    <div id="kraSection" style="display: none;">
+                        <label for="kraPin">KRA PIN:</label>
+                        <input type="text" id="kraPin" name="kraPin" placeholder="A000000000X">
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="kraTaxExempt" name="kraTaxExempt" value="1">
+                            <label for="kraTaxExempt" style="margin-bottom: 0;">Tax Exempt (Attach exemption certificate)</label>
+                        </div>
+
+                        <div id="exemptionUpload" style="display: none;">
+                            <label for="exemptionCert">Upload Tax Exemption Certificate:</label>
+                            <input type="file" id="exemptionCert" name="exemptionCert" accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Details -->
+                <div class="section">
+                    <h2>Delivery Information</h2>
+                    
+                    <label for="deliveryAddress">Street Address:</label>
+                    <input type="text" id="deliveryAddress" name="deliveryAddress" required>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="city">City:</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div>
+                            <label for="county">County:</label>
+                            <input type="text" id="county" name="county" required>
+                        </div>
+                    </div>
+
+                    <label for="postalCode">Postal Code (Optional):</label>
+                    <input type="text" id="postalCode" name="postalCode">
+
+                    <label for="deliveryNotes">Delivery Instructions (Optional):</label>
+                    <textarea id="deliveryNotes" name="deliveryNotes" rows="3" placeholder="e.g., Leave at reception, call upon arrival"></textarea>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="section">
+                    <h2>Payment Method</h2>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-option" data-payment="mpesa">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/512px-M-PESA_LOGO-01.svg.png" alt="M-Pesa">
+                            <p>M-Pesa</p>
+                        </div>
+                        <div class="payment-option" data-payment="card">
+                            <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" alt="Card Payment">
+                            <p>Visa/Mastercard</p>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="paymentMethod" name="paymentMethod" required>
+
+                    <!-- M-Pesa Payment Details -->
+                    <div id="mpesaDetails" class="payment-details">
+                        <h3>M-Pesa Payment</h3>
+                        <label for="mpesaPhone">M-Pesa Phone Number:</label>
+                        <input type="tel" id="mpesaPhone" name="mpesaPhone" placeholder="254XXXXXXXXX">
+                        <p style="color: #666; font-size: 0.9em;">You will receive an STK push to complete payment</p>
+                    </div>
+
+                    <!-- Card Payment Details -->
+                    <div id="cardDetails" class="payment-details">
+                        <h3>Card Payment</h3>
+                        <label for="cardNumber">Card Number:</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                        
+                        <div class="form-row">
+                            <div>
+                                <label for="expiryDate">Expiry Date:</label>
+                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div>
+                                <label for="cvv">CVV:</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="XXX" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Complete Order</button>
+            </form>
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div>
+            <div class="section order-summary">
+                <h2>Order Summary</h2>
+                
+                <div id="cartItems">
+                    <p style="text-align: center; color: #666;">Loading cart items...</p>
+                </div>
+
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotalAmount">Ksh 0.00</span>
+                </div>
+
+                <div class="summary-item">
+                    <span>VAT (16%):</span>
+                    <span id="vatAmount">Ksh 0.00</span>
+                </div>
+
+                <div class="summary-item">
+                    <span>Delivery Fee:</span>
+                    <span id="deliveryFee">Ksh 500.00</span>
+                </div>
+
+                <div class="summary-item" id="discountRow" style="display: none; color: var(--medilight-green);">
+                    <span>Discount:</span>
+                    <span id="discountAmount">-Ksh 0.00</span>
+                </div>
+
+                <div class="summary-item total">
+                    <span>Total Payable:</span>
+                    <span id="totalAmount">Ksh 0.00</span>
+                </div>
+
+                <!-- Voucher Code Section -->
+                <div class="voucher-section">
+                    <label for="voucherCode" style="margin-bottom: 10px;">Have a voucher code?</label>
+                    <div class="voucher-input-group">
+                        <input type="text" id="voucherCode" name="voucherCode" placeholder="Enter code">
+                        <button type="button" id="applyVoucher">Apply</button>
+                    </div>
+                    <div id="voucherMessage"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="js/order_form.js"></script>
+    <script>
+        // Cart calculation variables
+        let subtotal = 0;
+        let vatRate = 0.16;
+        let deliveryFee = 500;
+        let discount = 0;
+        let isTaxExempt = false;
+
+        // Load cart items
+        function loadCartItems() {
+            fetch('fetch_cart.php')
+                .then(res => res.json())
+                .then(data => {
+                    const cartItemsDiv = document.getElementById('cartItems');
+                    cartItemsDiv.innerHTML = '';
+                    subtotal = 0;
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        cartItemsDiv.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const itemTotal = parseFloat(item.price) * parseInt(item.quantity);
+                        subtotal += itemTotal;
+
+                        cartItemsDiv.innerHTML += `
+                            <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <strong>${item.product_name}</strong>
+                                    <span>Ksh ${Number(item.price).toLocaleString()}</span>
+                                </div>
+                                <div style="color: #666; font-size: 0.9em;">
+                                    Qty: ${item.quantity} × Ksh ${Number(item.price).toLocaleString()} = Ksh ${itemTotal.toLocaleString()}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    updateOrderSummary();
+                })
+                .catch(err => {
+                    console.error('Error loading cart:', err);
+                });
+        }
+
+        // Update order summary calculations
+        function updateOrderSummary() {
+            const vat = isTaxExempt ? 0 : subtotal * vatRate;
+            const total = subtotal + vat + deliveryFee - discount;
+
+            document.getElementById('subtotalAmount').textContent = `Ksh ${subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('vatAmount').textContent = `Ksh ${vat.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('deliveryFee').textContent = `Ksh ${deliveryFee.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('totalAmount').textContent = `Ksh ${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+            if (discount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountAmount').textContent = `-Ksh ${discount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
+        }
+
+        // Customer type change handler
+        document.getElementById('customerType').addEventListener('change', function() {
+            const kraSection = document.getElementById('kraSection');
+            if (this.value === 'company') {
+                kraSection.style.display = 'block';
+            } else {
+                kraSection.style.display = 'none';
+                document.getElementById('kraPin').value = '';
+                document.getElementById('kraTaxExempt').checked = false;
+                isTaxExempt = false;
+                updateOrderSummary();
+            }
+        });
+
+        // Tax exempt checkbox handler
+        document.getElementById('kraTaxExempt').addEventListener('change', function() {
+            const exemptionUpload = document.getElementById('exemptionUpload');
+            isTaxExempt = this.checked;
+            
+            if (this.checked) {
+                exemptionUpload.style.display = 'block';
+            } else {
+                exemptionUpload.style.display = 'none';
+            }
+            
+            updateOrderSummary();
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                const paymentType = this.dataset.payment;
+                document.getElementById('paymentMethod').value = paymentType;
+
+                document.querySelectorAll('.payment-details').forEach(detail => detail.classList.remove('active'));
+                
+                if (paymentType === 'mpesa') {
+                    document.getElementById('mpesaDetails').classList.add('active');
+                } else if (paymentType === 'card') {
+                    document.getElementById('cardDetails').classList.add('active');
+                }
+            });
+        });
+
+        // Card number formatting
+        document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Expiry date formatting
+        document.getElementById('expiryDate')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Apply voucher code
+        document.getElementById('applyVoucher').addEventListener('click', function() {
+            const voucherCode = document.getElementById('voucherCode').value.trim();
+            const messageDiv = document.getElementById('voucherMessage');
+
+            if (!voucherCode) {
+                messageDiv.innerHTML = '<p style="color: red; margin-top: 10px;">Please enter a voucher code</p>';
+                return;
+            }
+
+            // Send voucher to server for validation
+            fetch('validate_voucher.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({voucher_code: voucherCode, subtotal: subtotal})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    discount = data.discount_amount;
+                    messageDiv.innerHTML = `<p style="color: green; margin-top: 10px;">✓ Voucher applied! You saved Ksh ${discount.toLocaleString()}</p>`;
+                    updateOrderSummary();
+                } else {
+                    messageDiv.innerHTML = `<p style="color: red; margin-top: 10px;">✗ ${data.message}</p>`;
+                }
+            })
+            .catch(err => {
+                messageDiv.innerHTML = '<p style="color: red; margin-top: 10px;">Error validating voucher</p>';
+            });
+        });
+
+        // Form submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            if (!paymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+
+            // Add total amount to form
+            const totalAmount = subtotal + (isTaxExempt ? 0 : subtotal * vatRate) + deliveryFee - discount;
+            const hiddenTotal = document.createElement('input');
+            hiddenTotal.type = 'hidden';
+            hiddenTotal.name = 'totalAmount';
+            hiddenTotal.value = totalAmount;
+            this.appendChild(hiddenTotal);
+
+            // Submit form
+            this.submit();
+        });
+
+        // Load cart on page load
+        loadCartItems();
+    </script>
 </body>
 
 </html>

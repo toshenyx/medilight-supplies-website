@@ -10,70 +10,112 @@
 
 <body>
     <div class="container">
+        <!-- HEADER -->
         <div class="header">
             <div class="logo">
                 <img src="images/MEDLOGO.PNG.jpg" alt="Medilight Logo">
             </div>
+
             <div class="search-bar">
                 <input type="text" placeholder="Search for...">
             </div>
+
             <div class="icons">
+                <!-- Wishlist Icon -->
                 <div class="icon">
-                    <a href="login.html"><img src="images/profile.png" alt="Account"></a>
-                    <div>Account</div>
+                    <a href="wishlist.html">
+                        <img src="images/wishlist.png" alt="Wishlist">
+                        <div>Wishlist</div>
+                    </a>
                 </div>
+
+                <!-- Cart Icon -->
                 <div class="icon">
-                    <a href="wishlist.html"><img src="images/wishlist.png" alt="Wishlist"></a>
-                    <div>Wishlist</div>
-                </div>
-                <div class="icon">
-                    <a href="cart.html"><img src="images/cart.png" alt="Cart"></a>
-                    <div>My Cart</div>
+                    <a href="cart.html">
+                        <img src="images/cart.png" alt="Cart">
+                        <div>My Cart</div>
+                    </a>
                 </div>
             </div>
         </div>
+
+        <!-- PAGE TITLE -->
         <h1 class="page-title">Medtronic Brand Devices and Implants</h1>
 
-        <div class="pharma-equipment-grid">
-
-            <div class="equipment-item">
-                <img src="images/img6.png" alt="Medtronic Azure Pacemaker" class="equipment-img">
-                
-                <h3 class="equipment-name">Azure Pacemaker</h3>
-                <p class="equipment-description">Advanced MRI-conditional pacemaker with long battery life.</p>
-
-                <p class="equipment-price">Ksh 650,000</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-
-            <div class="equipment-item">
-                <img src="images/ortho6.png" alt="Medtronic Vital Signs Monitor" class="equipment-img">
-                
-                <h3 class="equipment-name">Vital Signs Monitor</h3>
-                <p class="equipment-description">Portable patient monitor with advanced physiological parameter tracking.</p>
-                <p class="equipment-price">Ksh 180,000</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-            
-            <div class="equipment-item">
-                <img src="images/orrtho1.png" alt="Medtronic Signia Surgical Stapler" class="equipment-img">
-                
-                <h3 class="equipment-name">Signia Surgical Stapler</h3>
-                <p class="equipment-description">Smart powered stapling system for complex procedures.</p>
-                <p class="equipment-price">Ksh 45,000</p>
-                
-                <button class="add-btn equipment-cart">🛒 Add to Cart</button>
-                <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
-            </div>
-
-            </div>
+        <!-- DYNAMIC PRODUCTS GRID -->
+        <div class="pharma-equipment-grid" id="products-container">
+            Loading products...
         </div>
+    </div>
 
-    <script src="js/product_listing.js"></script>
+    <!-- FETCH PRODUCTS SCRIPT -->
+    <script>
+        fetch("fetch_products.php?brand=Medtronic&category=Devices")
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("products-container");
+                container.innerHTML = ""; // Clear loading text
+
+                if (data.length === 0) {
+                    container.innerHTML = "<p>No products available.</p>";
+                    return;
+                }
+
+                data.forEach(product => {
+                    container.innerHTML += `
+                        <div class="equipment-item" data-id="${product.id}">
+                            <img src="${product.image_url}" alt="${product.product_name}" class="equipment-img">
+                            <h3 class="equipment-name">${product.product_name}</h3>
+                            <p class="equipment-description">${product.description}</p>
+                            <p class="equipment-price">Ksh ${Number(product.price).toLocaleString()}</p>
+                            <button class="add-btn equipment-cart">🛒 Add to Cart</button>
+                            <button class="add-btn equipment-wishlist">❤️ Wishlist</button>
+                        </div>
+                    `;
+                });
+
+                // Add event listeners for Cart buttons
+                document.querySelectorAll(".equipment-cart").forEach(button => {
+                    button.addEventListener("click", function() {
+                        const productDiv = this.closest(".equipment-item");
+                        const productId = productDiv.getAttribute("data-id");
+                        fetch("add_to_cart.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ product_id: productId })
+                        })
+                        .then(res => res.json())
+                        .then(response => alert(response.message))
+                        .catch(err => console.error("Error adding to cart:", err));
+                    });
+                });
+
+                // Add event listeners for Wishlist buttons
+                document.querySelectorAll(".equipment-wishlist").forEach(button => {
+                    button.addEventListener("click", function() {
+                        const productDiv = this.closest(".equipment-item");
+                        const productId = productDiv.getAttribute("data-id");
+                        fetch("add_to_wishlist.php", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ product_id: productId })
+                        })
+                        .then(res => res.json())
+                        .then(response => alert(response.message))
+                        .catch(err => console.error("Error adding to wishlist:", err));
+                    });
+                });
+
+            })
+            .catch(err => {
+                console.error("Error loading products:", err);
+                document.getElementById("products-container").innerHTML = "<p>Error loading products.</p>";
+            });
+    </script>
 </body>
 
 </html>
