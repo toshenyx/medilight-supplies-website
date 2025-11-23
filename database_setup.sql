@@ -66,88 +66,136 @@ CREATE TABLE wishlist (
 
 
 -- Table for orders
-CREATE TABLE orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    order_number VARCHAR(50) UNIQUE NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled', 'quote_requested') DEFAULT 'pending',
-    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    shipping_address TEXT,
-    billing_address TEXT,
-    contact_email VARCHAR(100),
-    contact_phone VARCHAR(20),
-    special_notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+CREATE TABLE IF NOT EXISTS orders (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) DEFAULT NULL,
+    client_name VARCHAR(255) NOT NULL,
+    contact_email VARCHAR(255) NOT NULL,
+    product_category VARCHAR(100) NOT NULL,
+    quantity INT(11) NOT NULL DEFAULT 1,
+    specific_needs TEXT,
+    order_status ENUM('Pending', 'Processing', 'Completed', 'Cancelled') NOT NULL DEFAULT 'Pending',
+    total_amount DECIMAL(10, 2) DEFAULT 0.00,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Table for order items
-CREATE TABLE order_items (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    order_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL,
-    unit_price DECIMAL(10, 2) NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT(11) NOT NULL,
+    product_id INT(11) DEFAULT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    quantity INT(11) NOT NULL DEFAULT 1,
+    unit_price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    subtotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert sample data into categories
-INSERT INTO categories (name, description, image_path) VALUES
-('Medical Equipment', 'Laboratory • Theatre • Sterilization • Wards • Dental • Imaging • Dialysis • Consumables', 'images/lab.jpg'),
-('Analytical Scientific Equipment', 'Pharmaceutical • Environment • Food • Oil & Gas • Life Sciences', 'images/eqp.jpg'),
-('Emergency & Safety Gear', 'Safety gears, evacuation, and resettlement items for disaster preparedness and emergency services', 'images/gear.jpg'),
-('Dental Equipment', 'Complete range of dental supplies and equipment', 'images/den.jpg'),
-('Radiography Equipment', 'Digital radiography systems and imaging equipment', 'images/radio1.png'),
-('Orthopedic Implants', 'Orthopedic implants and surgical supplies', 'images/orrtho1.png'),
-('Pharmaceuticals', 'Essential pharmaceuticals and injectables', 'images/B.Braun.png');
+-- Updated orders table with all checkout fields
+CREATE TABLE IF NOT EXISTS orders (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) DEFAULT NULL,
+    
+    -- Customer Information
+    customer_type ENUM('individual', 'company') NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    kra_pin VARCHAR(20) DEFAULT NULL,
+    tax_exempt TINYINT(1) DEFAULT 0,
+    exemption_cert_path VARCHAR(500) DEFAULT NULL,
+    
+    -- Delivery Information
+    delivery_address TEXT NOT NULL,
+    city VARCHAR(100) NOT NULL,
+    county VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20) DEFAULT NULL,
+    delivery_notes TEXT DEFAULT NULL,
+    
+    -- Payment & Order Details
+    payment_method ENUM('mpesa', 'card') NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    voucher_code VARCHAR(50) DEFAULT NULL,
+    order_status ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled') NOT NULL DEFAULT 'Pending',
+    
+    -- Timestamps
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert sample data into brands
-INSERT INTO brands (name, description, logo_path) VALUES
-('B. Braun', 'Leading manufacturer of medical devices and pharmaceuticals', 'images/B.Braun.png'),
-('Medtronic', 'Global leader in medical technology, services and solutions', 'images/MEDTRONIC01.jpg'),
-('Zimmer Biomet', 'Orthopedic and musculoskeletal healthcare solutions', 'images/Zimmer-Biomet.png');
+-- Order items table (products in each order)
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT(11) NOT NULL,
+    product_id INT(11) DEFAULT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    quantity INT(11) NOT NULL DEFAULT 1,
+    unit_price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    subtotal DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert sample data into products
-INSERT INTO products (name, description, price, category_id, brand_id, image_path, stock_quantity, specifications, warranty_info) VALUES
-('MRI Scanner', '3.0 Tesla ultra-high field imaging system', 15500000.00, 1, 2, 'images/mri.jpeg', 5, '3.0 Tesla, 128 channels, Advanced imaging software', '5 years comprehensive warranty'),
-('DIALYSIS MACHINE', '128-slice multi-detector computed tomography', 8250000.00, 1, 1, 'images/dialysis machine.jpeg', 8, '128-slice, Multi-detector, Advanced filtration system', '3 years comprehensive warranty'),
-('Anesthesia Workstation', 'High-end solution for advanced anesthesia care', 4100000.00, 1, 1, 'images/img6.png', 12, 'Digital flowmeter, Advanced monitoring, Integrated ventilation', '2 years comprehensive warranty'),
-('Digital X-Ray Unit', 'High-frequency, floor-mounted digital radiography system', 6800000.00, 5, 2, 'images/radio1.png', 7, 'Digital radiography, High-frequency generator, 150kW power', '4 years comprehensive warranty'),
-('Mobile C-Arm', 'Compact and versatile mobile fluoroscopy system for surgical suites', 4500000.00, 5, 3, 'images/radio3.png', 6, 'Mobile fluoroscopy, 12-inch image intensifier, Real-time imaging', '3 years comprehensive warranty'),
-('Dental x ray', 'Standard 14x17 inch film for traditional imaging (Box of 100)', 12500.00, 4, 1, 'images/radio5.jpg', 50, '14x17 inch, Medical grade, Box of 100', '1 year parts warranty'),
-('Metronidazole Injection', 'For the treatment of anaerobic bacterial infections (Box of 50)', 1500.00, 7, 1, 'images/B.Braun.png', 200, '500mg/100ml, Box of 50', '2 years shelf life'),
-('Paracetamol 500mg', 'Fever and pain relief. Supplied in bulk packs (1000 tablets)', 850.00, 7, 1, 'images/tubes1.png', 150, '500mg tablets, 1000 tablets per pack', '3 years shelf life'),
-('Dextrose 5% IV', 'Intravenous solution for fluid and calorie restoration (Case of 20 bags)', 3200.00, 7, 1, 'images/eqp.jpg', 80, '5% Dextrose in Water, 500ml bags, Case of 20', '2 years shelf life'),
-('Locking Bone Plate Set', 'Comprehensive set of titanium plates and self-tapping screws', 120000.00, 6, 3, 'images/orrtho1.png', 25, 'Titanium alloy, Complete surgical set, Sterile packaging', 'Lifetime warranty'),
-('Total Hip System', 'Modular femoral stem and acetabular cup components', 450000.00, 6, 3, 'images/ortho6.png', 15, 'Modular design, Titanium alloy, Complete components', 'Lifetime warranty'),
-('orthopedic braces', 'High-torque, battery-operated surgical drilling system', 85000.00, 6, 3, 'images/orthopedic9.png', 30, 'Battery operated, High-torque, Cordless design', '2 years comprehensive warranty'),
-('Infusomat Space Pump', 'Compact modular infusion pump for critical care', 115000.00, 1, 1, 'images/img1.png.jpg', 40, 'Modular design, Compact size, Programmable', '3 years comprehensive warranty'),
-('Introcan Safety Catheter', 'Peripheral IV catheter with a fully automatic safety shield (Box of 50)', 2800.00, 1, 1, 'images/img2.png.jpg', 100, 'Safety shield, 18G x 1.25", Box of 50', '1 year warranty'),
-('Novosyn Surgical Suture', 'Braided absorbable suture for general surgery (Box of 36)', 9500.00, 1, 1, 'images/img4.png', 60, 'Braided, Absorbable, 3-0, Box of 36', '2 years shelf life'),
-('Azure Pacemaker', 'Advanced MRI-conditional pacemaker with long battery life', 650000.00, 1, 2, 'images/img6.png', 10, 'MRI-conditional, Long battery life, Advanced features', 'Lifetime warranty'),
-('Vital Signs Monitor', 'Portable patient monitor with advanced physiological parameter tracking', 180000.00, 1, 2, 'images/ortho6.png', 20, '12-parameter monitoring, Portable, Battery backup', '3 years comprehensive warranty'),
-('Signia Surgical Stapler', 'Smart powered stapling system for complex procedures', 45000.00, 1, 2, 'images/orrtho1.png', 35, 'Powered stapling, Smart technology, Various staples', '2 years comprehensive warranty');
+-- Vouchers/Discount codes table
+CREATE TABLE IF NOT EXISTS vouchers (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    discount_type ENUM('percentage', 'fixed') NOT NULL,
+    discount_value DECIMAL(10, 2) NOT NULL,
+    max_discount_amount DECIMAL(10, 2) DEFAULT NULL,
+    min_purchase_amount DECIMAL(10, 2) DEFAULT NULL,
+    usage_limit INT(11) DEFAULT NULL,
+    times_used INT(11) DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    expiry_date DATE DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert sample users
-INSERT INTO users (username, email, password, first_name, last_name, phone, company_name, user_type) VALUES
-('john_doe', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'John', 'Doe', '+254712345678', 'MediCare Hospital', 'customer'),
-('jane_smith', 'jane@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Jane', 'Smith', '+254723456789', 'Research Institute', 'customer'),
-('admin_user', 'admin@medilight.co.ke', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'System', 'Admin', '+254705071699', 'MediLight Scientific', 'admin');
+-- Payments table to track payment transactions
+CREATE TABLE IF NOT EXISTS payments (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT(11) NOT NULL,
+    payment_method ENUM('M-Pesa', 'Card', 'Bank Transfer') NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    phone_number VARCHAR(20) DEFAULT NULL,
+    transaction_id VARCHAR(255) DEFAULT NULL,
+    status ENUM('Pending', 'Completed', 'Failed', 'Refunded') NOT NULL DEFAULT 'Pending',
+    payment_date DATETIME DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert sample orders
-INSERT INTO orders (user_id, order_number, total_amount, status, shipping_address, contact_email, contact_phone) VALUES
-(1, 'MLT-2025-0001', 15500000.00, 'delivered', 'P.O. Box 22174 – 00100, Nairobi, Kenya', 'john@example.com', '+254712345678'),
-(2, 'MLT-2025-0002', 185000.00, 'shipped', 'University of Nairobi, Main Campus, Nairobi', 'jane@example.com', '+254723456789'),
-(1, 'MLT-2025-0003', 8250000.00, 'processing', 'Aga Khan Hospital, Nairobi', 'john@example.com', '+254712345678');
+-- Indexes for better performance
+CREATE INDEX idx_user_id ON orders(user_id);
+CREATE INDEX idx_order_status ON orders(order_status);
+CREATE INDEX idx_payment_method ON orders(payment_method);
+CREATE INDEX idx_created_at ON orders(created_at);
+CREATE INDEX idx_email ON orders(email);
 
--- Insert sample order items
-INSERT INTO order_items (order_id, product_id, quantity, unit_price, total_price) VALUES
-(1, 1, 1, 15500000.00, 15500000.00),  -- MRI Scanner
-(2, 16, 1, 115000.00, 115000.00),      -- Infusomat Space Pump
-(2, 17, 1, 2800.00, 2800.00),          -- Introcan Safety Catheter
-(2, 18, 2, 9500.00, 19000.00),         -- Novosyn Surgical Suture
-(3, 2, 1, 8250000.00, 8250000.00);     -- DIALYSIS MACHINE
+CREATE INDEX idx_order_id ON order_items(order_id);
+CREATE INDEX idx_product_id ON order_items(product_id);
+
+CREATE INDEX idx_voucher_code ON vouchers(code);
+CREATE INDEX idx_voucher_active ON vouchers(is_active);
+CREATE INDEX idx_voucher_expiry ON vouchers(expiry_date);
+
+CREATE INDEX idx_payment_order ON payments(order_id);
+CREATE INDEX idx_payment_status ON payments(status);
+
+-- Insert sample vouchers for testing
+INSERT INTO vouchers (code, discount_type, discount_value, max_discount_amount, min_purchase_amount, usage_limit, is_active, expiry_date) VALUES
+('WELCOME10', 'percentage', 10.00, 5000.00, 1000.00, 100, 1, '2025-12-31'),
+('SAVE500', 'fixed', 500.00, NULL, 5000.00, 50, 1, '2025-12-31'),
+('BLACKFRIDAY', 'percentage', 20.00, 10000.00, 2000.00, 200, 1, '2025-11-30'),
+('NEWYEAR25', 'percentage', 25.00, 15000.00, 10000.00, 50, 1, '2026-01-15');
