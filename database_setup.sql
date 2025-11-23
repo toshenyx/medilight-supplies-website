@@ -2,86 +2,68 @@
 -- This file contains table creation queries and sample data insertion for the medical equipment website
 
 -- Create database
-CREATE DATABASE IF NOT EXISTS medilight_db;
-USE medilight_db;
+CREATE DATABASE IF NOT EXISTS my_app;
+USE my_app;
 
 -- Table for users (customers)
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    phone VARCHAR(20),
-    company_name VARCHAR(100),
-    address TEXT,
-    city VARCHAR(50),
-    country VARCHAR(50) DEFAULT 'Kenya',
-    user_type ENUM('customer', 'admin') DEFAULT 'customer',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Table for product categories
-CREATE TABLE categories (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT,
-    image_path VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password VARCHAR(255) NOT NULL
 );
 
 -- Table for brands
 CREATE TABLE brands (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT,
-    logo_path VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    brand_name VARCHAR(100) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    page_url VARCHAR(255) NOT NULL
 );
+
+--insert data query into brands
+INSERT INTO brands (brand_name, image_url, page_url)
+VALUES
+('Medtronic', 'images/MEDTRONIC01.jpg', 'Medtronic.html'),
+('Zimmer Biomet', 'images/Zimmer-Biomet.png', 'Zimmer_biomet.html'),
+('B. Braun', 'images/B.Braun.png', 'b_braun.html');
+
 
 -- Table for products
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(200) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    category_id INT,
-    brand_id INT,
-    image_path VARCHAR(255),
-    stock_quantity INT DEFAULT 0,
-    specifications TEXT,
-    warranty_info VARCHAR(200),
-    is_active BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id),
-    FOREIGN KEY (brand_id) REFERENCES brands(id)
+    product_name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    brand VARCHAR(100) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    page_url VARCHAR(255) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Sample data insertion
+INSERT INTO products (product_name, description, price, image_url, brand, category) VALUES
+('Azure Pacemaker', 'Advanced MRI-conditional pacemaker with long battery life.', 650000, 'images/img6.png', 'Medtronic', 'Devices'),
+('Vital Signs Monitor', 'Portable patient monitor with advanced physiological parameter tracking.', 180000, 'images/ortho6.png', 'Medtronic', 'Devices'),
+('Signia Surgical Stapler', 'Smart powered stapling system for complex procedures.', 45000, 'images/orrtho1.png', 'Medtronic', 'Devices');
 
 -- Table for shopping cart
 CREATE TABLE cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    session_id VARCHAR(255),
+    user_id INT NOT NULL,
     product_id INT NOT NULL,
-    quantity INT NOT NULL DEFAULT 1,
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    added_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Table for wishlists
+--Table for wishlist
 CREATE TABLE wishlist (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    UNIQUE KEY unique_wishlist (user_id, product_id)
+    added_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Table for orders
 CREATE TABLE orders (
